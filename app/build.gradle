@@ -39,6 +39,7 @@ dependencies {
     def roomVersion = "2.2.3"
     def navigationVersion = "2.2.0"
     def liveDataVersion = "2.2.0"
+    def koinVersion = "2.0.1"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // Karumi library that simplifies the process of requesting permissions at runtime.
     implementation 'com.karumi:dexter:6.0.1'
@@ -89,4 +90,12 @@ dependencies {
 
     // RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-}
+
+    // Koin AndroidX Scope features
+    implementation "org.koin:koin-android:$koinVersion"
+    // Koin AndroidX ViewModel features
+    implementation "org.koin:koin-androidx-viewmodel:$koinVersion"
+    // Koin AndroidX Scope features
+    implementation "org.koin:koin-androidx-scope:$koinVersion"
+    implementation "org.koin:koin-core:$koinVersion"
+  }

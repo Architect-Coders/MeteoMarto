@@ -1,6 +1,5 @@
 package com.apps.albertmartorell.meteomarto.ui.city
 
-import albertmartorell.com.data.repositories.RegionRepository
 import albertmartorell.com.data.repositories.WeatherRepository
 import albertmartorell.com.usecases.*
 import android.os.Bundle
@@ -10,36 +9,38 @@ import androidx.lifecycle.ViewModelProviders
 import com.apps.albertmartorell.meteomarto.R
 import com.apps.albertmartorell.meteomarto.databinding.LytActLandingBinding
 import com.apps.albertmartorell.meteomarto.framework.Interactors
-import com.apps.albertmartorell.meteomarto.framework.db.ImpWeatherDeviceSource
-import com.apps.albertmartorell.meteomarto.framework.server.ImpWeatherServerSource
-import com.apps.albertmartorell.meteomarto.ui.app
 import com.apps.albertmartorell.meteomarto.ui.city.CityViewModel.CityViewModelFactory
-import com.apps.albertmartorell.meteomarto.ui.common.AndroidPermissionChecker
-import com.apps.albertmartorell.meteomarto.ui.common.PlayServicesLocationDataSource
+import org.koin.androidx.scope.currentScope
 
 class Landing : AppCompatActivity() {
 
     private lateinit var viewModel: CityViewModel
     private lateinit var binding: LytActLandingBinding
+    private val weatherRepository: WeatherRepository by currentScope.inject()
+    private val getCityWeatherFromDatabase: GetCityWeatherFromDatabase by currentScope.inject()
+    private val findCurrentRegion: FindCurrentRegion by currentScope.inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
 
-        val weatherRepository =
-            WeatherRepository(ImpWeatherServerSource(), ImpWeatherDeviceSource(applicationContext))
-        val getCityWeatherFromDatabase = GetCityWeatherFromDatabase(weatherRepository)
+//        val weatherRepository =
+//            WeatherRepository(ImpWeatherServerSource(), ImpWeatherDeviceSource(applicationContext))
 
-        val findCurrentRegion = FindCurrentRegion(
-            RegionRepository(
-                PlayServicesLocationDataSource(
-                    app
-                ),
-                AndroidPermissionChecker(
-                    app
-                )
-            )
-        )
+        //val weatherRepository:WeatherRepository by weatherRepositoryModule()
+
+        //val getCityWeatherFromDatabase = GetCityWeatherFromDatabase(weatherRepository)
+
+//        val findCurrentRegion = FindCurrentRegion(
+//            RegionRepository(
+//                PlayServicesLocationDataSource(
+//                    app
+//                ),
+//                AndroidPermissionChecker(
+//                    app
+//                )
+//            )
+//        )
 
         val saveCityWeather = SaveCityWeather(weatherRepository)
         val requestCityWeatherByCoordinates = RequestWeatherByCoordinates(weatherRepository)
