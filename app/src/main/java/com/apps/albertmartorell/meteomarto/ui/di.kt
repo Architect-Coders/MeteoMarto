@@ -4,8 +4,7 @@ import albertmartorell.com.data.repositories.PermissionChecker
 import albertmartorell.com.data.repositories.RegionRepository
 import albertmartorell.com.data.repositories.WeatherRepository
 import albertmartorell.com.data.sources.LocationDataSource
-import albertmartorell.com.usecases.FindCurrentRegion
-import albertmartorell.com.usecases.GetCityWeatherFromDatabase
+import albertmartorell.com.usecases.*
 import android.app.Application
 import com.apps.albertmartorell.meteomarto.framework.db.ImpWeatherDeviceSource
 import com.apps.albertmartorell.meteomarto.framework.server.ImpWeatherServerSource
@@ -31,7 +30,7 @@ fun Application.initDI() {
         // the android context to used in these modules. It is an extra dependency
         androidContext(this@initDI)
         // the modules to load
-        modules(listOf(appModule, dataModule, useCasesModule, scopesModule))
+        modules(listOf(appModule, dataModule, useCasesModule, scopesModule, viewModelModule))
 
     }
 
@@ -50,15 +49,25 @@ private val appModule = module {
 
 private val dataModule = module {
 
-    // get is LocationDataSource and PermissionChecker, which previously are built in the appModule
+    // get is LocationDataSource and PermissionChecker, which previously were built in the appModule
     factory { RegionRepository(get(), get()) }
 
 }
 
 private val useCasesModule = module {
 
-    // get is RegionRepository,which previously is built in the dataModule
+    // get is RegionRepository,which previously was built in the dataModule
     factory<FindCurrentRegion> { get() }
+    // get is WeatherRepository, which previously was built in the appModule
+    factory<SaveCityWeather> { get() }
+    factory<RequestWeatherByCoordinates> { get() }
+    factory<DeleteAllCities> { get() }
+    factory<RequestCityForecastByCoordinates> { get() }
+    factory<DeleteAllForecast> { get() }
+    factory<SaveForecastCity> { get() }
+    factory<GetForecastCityFromDatabase> { get() }
+    factory<GetCityWeatherFromDatabase> { get() }
+
 }
 
 private val scopesModule = module {
@@ -72,14 +81,31 @@ private val scopesModule = module {
         scoped { GetCityWeatherFromDatabase(get()) }
         // get is RegionRepository
         scoped { FindCurrentRegion(get()) }
+        // get is WeatherRepository
+        scoped { SaveCityWeather(get()) }
+        // get is WeatherRepository
+        scoped { RequestWeatherByCoordinates(get()) }
+        // get is WeatherRepository
+        scoped { DeleteAllCities(get()) }
+        // get is WeatherRepository
+        scoped { RequestCityForecastByCoordinates(get()) }
+        // get is WeatherRepository
+        scoped { DeleteAllForecast(get()) }
+        // get is WeatherRepository
+        scoped { SaveForecastCity(get()) }
+        // get is WeatherRepository
+        scoped { GetForecastCityFromDatabase(get()) }
 
     }
 
 }
 
-val viewModelModule = module {
+private val viewModelModule = module {
 
     viewModel {
+
         CityViewModel(get())
+
     }
+
 }

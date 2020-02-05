@@ -15,12 +15,15 @@ import com.apps.albertmartorell.meteomarto.databinding.LytFrgCityWeatherBinding
 import com.apps.albertmartorell.meteomarto.ui.PermissionRequester
 import com.apps.albertmartorell.meteomarto.ui.model.CityUIView
 
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+
 class FrgCityWeather : Fragment() {
 
     lateinit var binding: LytFrgCityWeatherBinding
     lateinit var root: ConstraintLayout
     lateinit var navController: NavController
     lateinit var viewModel: CityViewModel
+    //private val viewModel by sharedViewModel<CityViewModel>()
     lateinit var coarsedPermissionRequest: PermissionRequester
 
     override fun onCreate(savedInstanceState: Bundle?) {

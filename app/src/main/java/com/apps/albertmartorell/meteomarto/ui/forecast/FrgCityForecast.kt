@@ -26,6 +26,7 @@ class FrgCityForecast : Fragment() {
     lateinit var root: ConstraintLayout
     lateinit var navController: NavController
     lateinit var viewModel: CityViewModel
+    //private val viewModel by sharedViewModel<CityViewModel>()
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var adapter: ForecastRecyclerAdapter
     val args: FrgCityForecastArgs by navArgs()
