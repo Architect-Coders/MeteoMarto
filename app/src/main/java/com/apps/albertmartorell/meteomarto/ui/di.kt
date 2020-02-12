@@ -30,7 +30,7 @@ fun Application.initDI() {
         // the android context to used in these modules. It is an extra dependency
         androidContext(this@initDI)
         // the modules to load
-        modules(listOf(appModule, dataModule, useCasesModule, scopesModule, viewModelModule))
+        modules(listOf(appModule, dataModule, useCasesModule, scopesModule))
 
     }
 

@@ -13,9 +13,7 @@ import org.koin.androidx.scope.currentScope
 class Landing : AppCompatActivity() {
 
     private lateinit var viewModel: CityViewModel
-    //private val viewModel by viewModel<CityViewModel>()
     private lateinit var binding: LytActLandingBinding
-    //private val weatherRepository: WeatherRepository by currentScope.inject()
     private val getCityWeatherFromDatabase: GetCityWeatherFromDatabase by currentScope.inject()
     private val findCurrentRegion: FindCurrentRegion by currentScope.inject()
     private val saveCityWeather: SaveCityWeather by currentScope.inject()
@@ -29,32 +27,6 @@ class Landing : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-
-//        val weatherRepository =
-//            WeatherRepository(ImpWeatherServerSource(), ImpWeatherDeviceSource(applicationContext))
-
-        //val weatherRepository:WeatherRepository by weatherRepositoryModule()
-
-        //val getCityWeatherFromDatabase = GetCityWeatherFromDatabase(weatherRepository)
-
-//        val findCurrentRegion = FindCurrentRegion(
-//            RegionRepository(
-//                PlayServicesLocationDataSource(
-//                    app
-//                ),
-//                AndroidPermissionChecker(
-//                    app
-//                )
-//            )
-//        )
-
-        //val saveCityWeather = SaveCityWeather(weatherRepository)
-        //val requestCityWeatherByCoordinates = RequestWeatherByCoordinates(weatherRepository)
-        //val deleteAllCities = DeleteAllCities(weatherRepository)
-        //val requestCityForecastByCoordinates = RequestCityForecastByCoordinates(weatherRepository)
-        //val deleteAllForecast = DeleteAllForecast(weatherRepository)
-        //val saveForecastCity = SaveForecastCity(weatherRepository)
-        //val getForecastCityFromDatabase = GetForecastCityFromDatabase(weatherRepository)
 
         // the this param does that each time we access the view model providers checks if this view model already exists: if not it is created else it is got again
         viewModel = ViewModelProviders.of(
