@@ -15,8 +15,6 @@ import com.apps.albertmartorell.meteomarto.databinding.LytFrgCityWeatherBinding
 import com.apps.albertmartorell.meteomarto.ui.PermissionRequester
 import com.apps.albertmartorell.meteomarto.ui.model.CityUIView
 
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-
 class FrgCityWeather : Fragment() {
 
     lateinit var binding: LytFrgCityWeatherBinding
@@ -220,44 +218,34 @@ class FrgCityWeather : Fragment() {
 
     private fun showData(cityUIView: CityUIView) {
 
-        binding.lytFrgCityWeatherDate.setText(cityUIView.date.toString())
+        binding.lytFrgCityWeatherDate.text = cityUIView.date.toString()
 
-        binding.lytFrgCityWeatherTempMin.setText(
-            activity?.getString(
-                R.string.min_temperature,
-                cityUIView.temperatureMin.toString()
-            )
+        binding.lytFrgCityWeatherTempMin.text = activity?.getString(
+            R.string.min_temperature,
+            cityUIView.temperatureMin.toString()
         )
 
-        binding.lytFrgCityWeatherTempMax.setText(
-            activity?.getString(
-                R.string.max_temperature,
-                cityUIView.temperatureMax.toString()
-            )
+        binding.lytFrgCityWeatherTempMax.text = activity?.getString(
+            R.string.max_temperature,
+            cityUIView.temperatureMax.toString()
         )
 
-        binding.lytFrgCityWeatherFeelsLike.setText(
-            activity?.getString(
-                R.string.feels_like,
-                cityUIView.temperatureFeelsLike.toString()
-            )
+        binding.lytFrgCityWeatherFeelsLike.text = activity?.getString(
+            R.string.feels_like,
+            cityUIView.temperatureFeelsLike.toString()
         )
-        binding.lytFrgCityWeatherPressure.setText(
-            activity?.getString(
-                R.string.atmospheric_pressure,
-                cityUIView.pressure.toString()
-            )
+        binding.lytFrgCityWeatherPressure.text = activity?.getString(
+            R.string.atmospheric_pressure,
+            cityUIView.pressure.toString()
         )
 
-        binding.lytFrgCityWeatherDescription.setText(
-            activity?.getString(
-                R.string.current_weather,
-                cityUIView.description.toString()
-            )
+        binding.lytFrgCityWeatherDescription.text = activity?.getString(
+            R.string.current_weather,
+            cityUIView.description.toString()
         )
 
         //binding.lytFrgCityWeatherIcon.loadIconsWeather(cityUIView.icon)
-        binding.lytFrgCityWeatherName.setText(cityUIView.name)
+        binding.lytFrgCityWeatherName.text = cityUIView.name
 
         makeViewsVisible(View.VISIBLE)
         binding.progressBar.visibility = View.GONE
@@ -295,8 +283,8 @@ class FrgCityWeather : Fragment() {
         (activity as Landing).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         (activity as Landing).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         (activity as Landing).supportActionBar?.setDisplayShowHomeEnabled(true)
-        (activity as Landing).supportActionBar?.setTitle(getString(R.string.toolbar_title))
-        (activity as Landing).supportActionBar?.setSubtitle("")
+        (activity as Landing).supportActionBar?.title = getString(R.string.toolbar_title)
+        (activity as Landing).supportActionBar?.subtitle = ""
 
     }
 

@@ -10,17 +10,6 @@ dependencies {
     implementation kotlinLibs.values()
     implementation testLibs.values()
 
-    //implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-    //implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-
-    // Testing
-    //testImplementation "junit:junit:$jUnitVersion"
-    // Mockito omple amb nulls els valors de les classes que mockeja. I això ens pot donar problemes amb classes
-    // amb valors no nullables.
-    //testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
-    // com que en Kotlin les classes són final per defecte, utilitzarem aquesta feature que és capaç de moquejar
-    // aquestes classes final. Així evitem d'haver de fer codi específic per a testing.
-    //testImplementation "org.mockito:mockito-inline:2.28.2"
 }
 
 sourceCompatibility = "7"

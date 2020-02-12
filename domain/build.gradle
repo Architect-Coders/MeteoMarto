@@ -1,8 +1,13 @@
 apply plugin: 'kotlin'
 
 dependencies {
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    
+    // here we get specific dependencies instead of a full pack
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
 }
 
 sourceCompatibility = "7"
