@@ -3,6 +3,7 @@ package com.apps.albertmartorell.meteomarto
 import android.app.Application
 import androidx.room.Room
 import com.apps.albertmartorell.meteomarto.framework.db.MeteoMartoDatabase
+import com.apps.albertmartorell.meteomarto.ui.initDI
 
 class MeteoMartoApp : Application() {
 
@@ -15,6 +16,7 @@ class MeteoMartoApp : Application() {
 
         meteoMartoDatabase =
             Room.databaseBuilder(this, MeteoMartoDatabase::class.java, "MeteoMartoDatabase").build()
+        initDI()
 
     }
 
