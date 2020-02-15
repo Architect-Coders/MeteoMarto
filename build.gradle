@@ -81,7 +81,14 @@ allprojects {
 
         testLibs = [
                 junit        : "junit:junit:$jUnitVersion",
+                // Mockito és un framework que permet crear mocks de manera automàtica. DE tal forma que permet verificar
+                // quines funcions han estat cridades i quantes vegades ho han fet.
+                // La primera llibreria, el que fa és solucionar un problema amb Kotlin: Mockito el que fa és omplir amb nulls
+                // la majoria dels components de les classes que mockeja, ia ixo amb kotlin dóna problemes perquè una classe pot
+                // ser no nullable.
                 mockitoKotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0",
+                // Com que et Kolitn les classes són final per defecte, aquesta el que fa és que una classe encara que sigui
+                // final, es pogui mockejar.
                 mockitoInline: "org.mockito:mockito-inline:2.28.2"
         ]
 
