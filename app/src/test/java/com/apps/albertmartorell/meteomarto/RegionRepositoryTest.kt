@@ -57,13 +57,36 @@ class RegionRepositoryTest {
         // Només necessari quan testejem corrutines: per assegurar que el test no acabi fins que la corrutina ho faci
         runBlocking {
 
-            // GIVEN: la part de configuraió del test. L'estat que el volem posar abans de començar
+            // GIVEN: la part de configuració del test. L'estat que el volem posar abans de començar
             whenever(permissionChecker.check(PermissionChecker.Permission.COARSE_LOCATION)).thenReturn(
                 false
             )
             // WHEN: el codi a executar
             val coordinates = regionRepository.findLastRegion()
             val coordinatesExpected = Coordinates(0F, 0F)
+
+            // THEN: comprovem si s'han generat els resultats esperats a WHEN. Sinó, el test ha fallat
+            assertEquals(coordinatesExpected, coordinates)
+
+        }
+
+    }
+
+    @Test
+    fun `Return default when permission is granted`() {
+
+        // Només necessari quan testejem corrutines: per assegurar que el test no acabi fins que la corrutina ho faci
+        runBlocking {
+
+            // GIVEN: la part de configuració del test. L'estat que el volem posar abans de començar
+            whenever(permissionChecker.check(PermissionChecker.Permission.COARSE_LOCATION)).thenReturn(
+                true
+            )
+            // WHEN: el codi a executar
+            val coordinates = regionRepository.findLastRegion()
+
+            val coordinatesExpected =
+                Coordinates(RegionRepository.DEFAULT_LATITUDE, RegionRepository.DEFAULT_LONGITUDE)
 
             // THEN: comprovem si s'han generat els resultats esperats a WHEN. Sinó, el test ha fallat
             assertEquals(coordinatesExpected, coordinates)

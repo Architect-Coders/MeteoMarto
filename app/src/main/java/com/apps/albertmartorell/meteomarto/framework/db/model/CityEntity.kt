@@ -2,7 +2,6 @@ package com.apps.albertmartorell.meteomarto.framework.db.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
 
 @Entity(tableName = "cities")
 data class CityEntity(
