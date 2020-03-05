@@ -2,7 +2,6 @@ apply plugin: 'kotlin'
 
 dependencies {
 
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
     //reference the data domain modules from the app module
     implementation project(':domain')
     implementation project(':data')
@@ -11,6 +10,3 @@ dependencies {
     implementation testLibs.values()
 
 }
-
-sourceCompatibility = "7"
-targetCompatibility = "7"

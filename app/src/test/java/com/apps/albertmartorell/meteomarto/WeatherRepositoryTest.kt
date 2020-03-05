@@ -2,6 +2,9 @@ package com.apps.albertmartorell.meteomarto
 
 import albertmartorell.com.data.repositories.WeatherRepository
 import albertmartorell.com.domain.responses.City
+import com.apps.albertmartorell.meteomarto.testshared.mockCoordinates
+import com.apps.albertmartorell.meteomarto.testshared.mockDomainCity
+import com.apps.albertmartorell.meteomarto.testshared.mockFlowCity
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import junit.framework.TestCase.assertEquals

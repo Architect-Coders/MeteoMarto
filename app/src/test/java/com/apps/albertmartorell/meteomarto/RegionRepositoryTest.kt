@@ -5,7 +5,7 @@ import albertmartorell.com.data.repositories.RegionRepository
 import albertmartorell.com.data.sources.LocationDataSource
 import albertmartorell.com.domain.cityweather.Coordinates
 import com.nhaarman.mockitokotlin2.whenever
-import junit.framework.Assert.assertEquals
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -28,6 +28,7 @@ class RegionRepositoryTest {
 
     @Mock
     lateinit var locationDataSource: LocationDataSource
+
     @Mock
     lateinit var permissionChecker: PermissionChecker
 

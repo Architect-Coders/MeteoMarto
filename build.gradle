@@ -89,7 +89,20 @@ allprojects {
                 mockitoKotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0",
                 // Com que et Kolitn les classes són final per defecte, aquesta el que fa és que una classe encara que sigui
                 // final, es pogui mockejar.
-                mockitoInline: "org.mockito:mockito-inline:2.28.2"
+                mockitoInline: "org.mockito:mockito-inline:2.28.2",
+                testShared   : project(':testShared')
+        ]
+
+        // LiveData té 2 problemes per fer testing:
+        // 1. LiveData sempre busquen el main thread per executar els observers, així s'asseugren que la
+        // actualització de les dades es fan el fin principal. Però en els tests això falla, perquè
+        // en els tests no hi ha fil principal.
+        // Aquesta llibreria ens permet afegir una rule en els testos, la qual obliga als LiveData
+        // a executar-se sempre al fil del test, en comptes de buscar el fil principal.
+        // 2. Per altra banda, en els testos no tenim un objecte Lifecycle, per tant podem utilitzar el observe per
+        // testejar-lo. Hem d'utilitzar una funció que es diu observeForEver i passer-li un observe mockejat.
+        androidxTestLibs = [
+                archCoreTesting: 'android.arch.core:core-testing:1.1.1'
         ]
 
         androidTestLibs = [
