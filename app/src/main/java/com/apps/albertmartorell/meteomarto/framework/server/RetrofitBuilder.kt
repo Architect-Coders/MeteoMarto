@@ -1,7 +1,7 @@
 package com.apps.albertmartorell.meteomarto.framework.server
 
 import albertmartorell.com.data.server.interfaces.ICityWeatherByCoordinates
-import albertmartorell.com.data.server.interfaces.ICitytWeatherByName
+import albertmartorell.com.data.server.interfaces.ICityWeatherByName
 import com.apps.albertmartorell.meteomarto.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -43,7 +43,7 @@ object RetrofitBuilder {
     }
 
     // Global properties: they are a singleton dependency in a lazy fashion
-    val cityWeatherByName by lazy { retrofit.create(ICitytWeatherByName::class.java) }
+    val cityWeatherByName by lazy { retrofit.create(ICityWeatherByName::class.java) }
     val cityWeatherByCoordinates by lazy { retrofit.create(ICityWeatherByCoordinates::class.java) }
 
 }

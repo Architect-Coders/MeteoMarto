@@ -58,27 +58,21 @@ class ForecastRecyclerAdapter(private val forecastList: List<ForecastDomain>) :
         fun bind(_forecastDomain: ForecastDomain) {
 
             forecastDomain = _forecastDomain
-            view.lyt_frg_city_forecast_recycler_row_time.setText(forecastDomain?.time)
+            view.lyt_frg_city_forecast_recycler_row_time.text = forecastDomain?.time
             view.lyt_frg_city_forecast_recycler_row_icon.loadIconsWeather(forecastDomain?.icon)
-            view.lyt_frg_city_forecast_recycler_row_description.setText(forecastDomain?.description)
-            view.lyt_frg_city_forecast_recycler_row_temp_min.setText(
-                view.context.getString(
-                    R.string.min_temperature,
-                    forecastDomain?.temperatureMin.toString()
-                )
+            view.lyt_frg_city_forecast_recycler_row_description.text = forecastDomain?.description
+            view.lyt_frg_city_forecast_recycler_row_temp_min.text = view.context.getString(
+                R.string.min_temperature,
+                forecastDomain?.temperatureMin.toString()
             )
 
-            view.lyt_frg_city_forecast_recycler_row_temp_max.setText(
-                view.context.getString(
-                    R.string.max_temperature,
-                    forecastDomain?.temperatureMax.toString()
-                )
+            view.lyt_frg_city_forecast_recycler_row_temp_max.text = view.context.getString(
+                R.string.max_temperature,
+                forecastDomain?.temperatureMax.toString()
             )
-            view.lyt_frg_city_forecast_recycler_row_temp_feel.setText(
-                view.context.getString(
-                    R.string.feels_like,
-                    forecastDomain?.temperatureFeelsLike.toString()
-                )
+            view.lyt_frg_city_forecast_recycler_row_temp_feel.text = view.context.getString(
+                R.string.feels_like,
+                forecastDomain?.temperatureFeelsLike.toString()
             )
 
         }
