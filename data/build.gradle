@@ -2,7 +2,7 @@ apply plugin: 'kotlin'
 
 dependencies {
 
-    //reference the domain module from the app module
+    //reference the domain module from the data module
     implementation project(':domain')
 
     implementation kotlinLibs.values()
