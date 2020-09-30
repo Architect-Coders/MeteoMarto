@@ -20,7 +20,7 @@ import org.mockito.junit.MockitoJUnitRunner
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 
-// Amb aquesta anotació, es crea totes les dependencies Mock i després les neteja
+// Amb aquesta anotació, es crea totes les dependencies Mock i després les neteja cada vegada que s'executa un test
 @RunWith(MockitoJUnitRunner::class)
 class RegionRepositoryTest {
 
@@ -53,7 +53,7 @@ class RegionRepositoryTest {
     }
 
     @Test
-    fun `Return default when permission is denied`() {
+    fun `returns default when permission is denied`() {
 
         // Només necessari quan testejem corrutines: per assegurar que el test no acabi fins que la corrutina ho faci
         runBlocking {
@@ -74,7 +74,7 @@ class RegionRepositoryTest {
     }
 
     @Test
-    fun `Return default when permission is granted`() {
+    fun `returns default when permission is granted`() {
 
         // Només necessari quan testejem corrutines: per assegurar que el test no acabi fins que la corrutina ho faci
         runBlocking {

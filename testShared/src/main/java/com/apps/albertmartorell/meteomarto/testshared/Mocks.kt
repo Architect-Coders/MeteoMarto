@@ -1,5 +1,9 @@
 package com.apps.albertmartorell.meteomarto.testshared
 
+/**
+ * En aquest mòdul posem tot el contingut que necessitem per compartir entre els diferents tests.
+ *
+ */
 import albertmartorell.com.domain.cityweather.*
 import albertmartorell.com.domain.responses.City
 import kotlinx.coroutines.flow.Flow

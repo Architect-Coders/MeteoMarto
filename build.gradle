@@ -84,12 +84,15 @@ allprojects {
                 // Mockito és un framework que permet crear mocks de manera automàtica. DE tal forma que permet verificar
                 // quines funcions han estat cridades i quantes vegades ho han fet.
                 // La primera llibreria, el que fa és solucionar un problema amb Kotlin: Mockito el que fa és omplir amb nulls
-                // la majoria dels components de les classes que mockeja, ia ixo amb kotlin dóna problemes perquè una classe pot
+                // la majoria dels components de les classes que mockeja, i això amb kotlin dóna problemes perquè una classe pot
                 // ser no nullable.
                 mockitoKotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0",
-                // Com que et Kolitn les classes són final per defecte, aquesta el que fa és que una classe encara que sigui
+                // Com que et Kotlin totes les classes són final per defecte, aquesta el que fa és que una classe encara que sigui
                 // final, es pogui mockejar.
                 mockitoInline: "org.mockito:mockito-inline:2.28.2",
+                // Com que les llibreries de testing s'afegeixen amb el androidTestImplementation,
+                // el mòdul testShared  no s'ha afegirà en temps de compilació al projecte,
+                // només es compila quan s'executin els tests
                 testShared   : project(':testShared')
         ]
 
@@ -99,8 +102,8 @@ allprojects {
         // en els tests no hi ha fil principal.
         // Aquesta llibreria ens permet afegir una rule en els testos, la qual obliga als LiveData
         // a executar-se sempre al fil del test, en comptes de buscar el fil principal.
-        // 2. Per altra banda, en els testos no tenim un objecte Lifecycle, per tant podem utilitzar el observe per
-        // testejar-lo. Hem d'utilitzar una funció que es diu observeForEver i passer-li un observe mockejat.
+        // 2. Per altra banda, en els testos no tenim un objecte Lifecycle, per tant podem utilitzar el observer per
+        // testejar-lo. Hem d'utilitzar una funció que es diu observeForEver i passer-li un observer mockejat.
         androidxTestLibs = [
                 archCoreTesting: 'android.arch.core:core-testing:1.1.1'
         ]
