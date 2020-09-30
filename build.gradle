@@ -90,6 +90,8 @@ allprojects {
                 // Com que et Kotlin totes les classes són final per defecte, aquesta el que fa és que una classe encara que sigui
                 // final, es pogui mockejar.
                 mockitoInline: "org.mockito:mockito-inline:2.28.2",
+                // To use Koin in integratioin tests
+                koinTest     : "org.koin:koin-test:$koinVersion",
                 // Com que les llibreries de testing s'afegeixen amb el androidTestImplementation,
                 // el mòdul testShared  no s'ha afegirà en temps de compilació al projecte,
                 // només es compila quan s'executin els tests

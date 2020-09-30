@@ -2,8 +2,8 @@ package com.apps.albertmartorell.meteomarto.ui.common
 
 import albertmartorell.com.data.sources.LocationDataSource
 import albertmartorell.com.domain.cityweather.Coordinates
+import android.annotation.SuppressLint
 import android.app.Application
-import android.location.Geocoder
 import android.location.Location
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -16,7 +16,7 @@ import kotlin.coroutines.resume
 
 class PlayServicesLocationDataSource(application: Application) : LocationDataSource {
 
-    private val geocoder = Geocoder(application)
+    //private val geocoder = Geocoder(application)
     private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(application)
 
     /**
@@ -30,6 +30,7 @@ class PlayServicesLocationDataSource(application: Application) : LocationDataSou
     }
      **/
 
+    @SuppressLint("MissingPermission")
     override suspend fun findLastRegion(): Coordinates =
         suspendCancellableCoroutine { continuation ->
             fusedLocationClient.lastLocation

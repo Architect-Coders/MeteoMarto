@@ -2,7 +2,7 @@ package com.apps.albertmartorell.meteomarto.framework.db.daos
 
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy
+import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import com.apps.albertmartorell.meteomarto.framework.db.model.CityEntity
 import com.apps.albertmartorell.meteomarto.framework.db.model.ForecastEntity
@@ -36,7 +36,7 @@ interface WeatherDao {
     @Query(value = "SELECT * FROM cities WHERE latitude = :latitude and longitude = :longitude")
     fun getCityWeatherByCoordinates(latitude: Float, longitude: Float): CityEntity
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = REPLACE)
     fun insertWeatherCity(cityWeather: CityEntity)
 
     @Query("DELETE FROM cities")
@@ -45,7 +45,7 @@ interface WeatherDao {
     @Query("DELETE FROM forecasts")
     fun deleteAllForecast()
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = REPLACE)
     fun insertForecastCity(forecastEntity: List<ForecastEntity>?)
 
     @Query("SELECT * FROM forecasts")

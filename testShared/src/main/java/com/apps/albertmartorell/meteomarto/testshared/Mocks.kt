@@ -4,6 +4,7 @@ package com.apps.albertmartorell.meteomarto.testshared
  * En aquest mòdul posem tot el contingut que necessitem per compartir entre els diferents tests.
  *
  */
+import albertmartorell.com.domain.cityforecast.ForecastDomain
 import albertmartorell.com.domain.cityweather.*
 import albertmartorell.com.domain.responses.City
 import kotlinx.coroutines.flow.Flow
@@ -11,7 +12,7 @@ import kotlinx.coroutines.flow.flow
 
 val mockCoordinates = Coordinates(0F, 0F)
 val mockWeather = Weather("main", "desription", "icon")
-val mockWeatherList = listOf<Weather>(mockWeather)
+val mockWeatherList = listOf(mockWeather)
 val mockMain = Main(
     20F, 75F, 1010F, 10F,
     25F, 17F
@@ -29,7 +30,6 @@ fun mockDomainCity(newCoordinates: Coordinates, name: String): City = City(
     mockSys, name
 )
 
-
 fun mockFlowCity(newCoordinates: Coordinates, name: String): Flow<City> = flow {
 
     City(
@@ -42,3 +42,13 @@ fun mockFlowCity(newCoordinates: Coordinates, name: String): Flow<City> = flow {
     )
 
 }
+
+fun mockForecastDomain():ForecastDomain = ForecastDomain(
+
+    "",
+    10,
+    20,
+    15,
+    "Temps fake",
+    ""
+)

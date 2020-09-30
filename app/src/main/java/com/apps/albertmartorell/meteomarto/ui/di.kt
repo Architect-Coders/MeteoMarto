@@ -36,8 +36,8 @@ fun Application.initDI() {
 
 }
 
-// the name of the module belogns to the application module: app, usecases, data, domain....
-// the dependencies that its has, are the classes that we initialize in this module
+// the name of the module belongs to the application module: app, use cases, data, domain....
+// the dependencies that it has, are the classes that we initialize in this module
 private val appModule = module {
 
     factory<WeatherRepository.WeatherServerSource> { ImpWeatherServerSource() }
@@ -47,16 +47,16 @@ private val appModule = module {
 
 }
 
-private val dataModule = module {
+val dataModule = module {
 
     // get is LocationDataSource and PermissionChecker, which previously were built in the appModule
     factory { RegionRepository(get(), get()) }
 
 }
 
-private val useCasesModule = module {
+val useCasesModule = module {
 
-    // get is RegionRepository,which previously was built in the dataModule
+    // get RegionRepository, which previously was built in the dataModule
     factory<FindCurrentRegion> { get() }
     // get is WeatherRepository, which previously was built in the appModule
     factory<SaveCityWeather> { get() }
