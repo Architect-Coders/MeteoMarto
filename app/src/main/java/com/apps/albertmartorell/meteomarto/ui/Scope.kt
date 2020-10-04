@@ -1,9 +1,6 @@
 package com.apps.albertmartorell.meteomarto.ui
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -12,8 +9,16 @@ import kotlin.coroutines.CoroutineContext
  */
 interface Scope : CoroutineScope {
 
+    class Impl(override val uiDispatcher: CoroutineDispatcher) : Scope {
+
+        override lateinit var job: Job
+
+    }
+
     //In kotlin can have interfaces with code but no with state
     var job: Job
+    val uiDispatcher: CoroutineDispatcher
+
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
 
@@ -24,7 +29,7 @@ interface Scope : CoroutineScope {
 
     }
 
-    fun cancelScope() {
+    fun destroyScope() {
 
         job.cancel()
 

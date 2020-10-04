@@ -2,22 +2,31 @@ package com.apps.albertmartorell.meteomarto.ui.city
 
 import albertmartorell.com.domain.cityforecast.ForecastDomain
 import albertmartorell.com.domain.cityweather.Coordinates
+import albertmartorell.com.usecases.*
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.apps.albertmartorell.meteomarto.framework.Interactors
 import com.apps.albertmartorell.meteomarto.framework.db.common.convertToCityUIView
-import com.apps.albertmartorell.meteomarto.ui.Scope
+import com.apps.albertmartorell.meteomarto.ui.ScopedViewModel
 import com.apps.albertmartorell.meteomarto.ui.common.Event
 import com.apps.albertmartorell.meteomarto.ui.model.CityUIView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-class CityViewModel(private val interactors: Interactors) : ViewModel(), Scope {
+//class CityViewModel(private val interactors: Interactors, uiDispatcher: CoroutineDispatcher) :
+//    ScopedViewModel(uiDispatcher) {
+
+class CityViewModel(private val findCurrentRegion: FindCurrentRegion,
+                    private val getCityWeatherFromDatabase: GetCityWeatherFromDatabase,
+                    private val requestWeatherByCoordinates: RequestWeatherByCoordinates,
+                    private val saveCityWeather: SaveCityWeather,
+                    private val deleteAllCities: DeleteAllCities,
+                    private val requestCityForecastByCoordinates: RequestCityForecastByCoordinates,
+                    private val deleteAllForecast: DeleteAllForecast,
+                    private val saveForecastCity: SaveForecastCity,
+                    private val getForecastCity: GetForecastCityFromDatabase, uiDispatcher: CoroutineDispatcher) :
+    ScopedViewModel(uiDispatcher) {
 
     override lateinit var job: Job
 
@@ -120,7 +129,7 @@ class CityViewModel(private val interactors: Interactors) : ViewModel(), Scope {
         launch {
 
             _eventRequestedLocationPermissionFinished.value =
-                Event(interactors.findCurrentRegion.invoke())
+                Event(findCurrentRegion.invoke())
 
         }
 
@@ -136,7 +145,7 @@ class CityViewModel(private val interactors: Interactors) : ViewModel(), Scope {
             try {
 
                 withContext(Dispatchers.IO) {
-                    interactors.getCityWeatherFromDatabase.invoke().collect {
+                    getCityWeatherFromDatabase.invoke().collect {
 
                         withContext(Dispatchers.Main) {
                             _eventCityWeatherOffline.value = Event(it.convertToCityUIView())
@@ -165,14 +174,14 @@ class CityViewModel(private val interactors: Interactors) : ViewModel(), Scope {
 
                 try {
 
-                    val response = interactors.requestWeatherByCoordinates.invoke(
+                    val response = requestWeatherByCoordinates.invoke(
                         coordinates.latitude,
                         coordinates.longitude
                     )
 
-                    interactors.deleteAllCities.invoke()
-                    interactors.saveCityWeather.invoke(response)
-                    interactors.getCityWeatherFromDatabase.invoke().collect {
+                    deleteAllCities.invoke()
+                    saveCityWeather.invoke(response)
+                    getCityWeatherFromDatabase.invoke().collect {
 
                         withContext(Dispatchers.Main) {
                             _eventCityWeather.value = Event(it.convertToCityUIView())
@@ -183,7 +192,7 @@ class CityViewModel(private val interactors: Interactors) : ViewModel(), Scope {
                 } catch (ex: Exception) {
 
                     // error
-                    interactors.getCityWeatherFromDatabase.invoke().collect {
+                    getCityWeatherFromDatabase.invoke().collect {
 
                         withContext(Dispatchers.Main) {
                             _eventCityWeatherOffline.value = Event(it.convertToCityUIView())
@@ -207,13 +216,13 @@ class CityViewModel(private val interactors: Interactors) : ViewModel(), Scope {
 
                 try {
 
-                    val response = interactors.requestCityForecastByCoordinates.invoke(
+                    val response = requestCityForecastByCoordinates.invoke(
                         latitude, longitude
                     )
 
-                    interactors.deleteAllForecast.invoke()
-                    interactors.saveForecastCity.invoke(response)
-                    interactors.getForecastCity.invoke().collect {
+                    deleteAllForecast.invoke()
+                    saveForecastCity.invoke(response)
+                    getForecastCity.invoke().collect {
 
                         withContext(Dispatchers.Main) {
 
@@ -248,22 +257,50 @@ class CityViewModel(private val interactors: Interactors) : ViewModel(), Scope {
 
     override fun onCleared() {
 
+        destroyScope()
         super.onCleared()
-        cancelScope()
 
     }
+
+//    /**
+//     * As CityViewModel has arguments, we need to create it with a factory, else Android will create a ViewModel with empty constructor, and CityViewModel needs arguments
+//     */
+//    @Suppress("UNCHECKED_CAST")
+//    class CityViewModelFactory(
+//        private val interactors: Interactors,
+//        private val uiDispatcher: CoroutineDispatcher
+//    ) :
+//        ViewModelProvider.Factory {
+//
+//        override fun <T : ViewModel?> create(modelClass: Class<T>): T =
+//
+//            CityViewModel(interactors, uiDispatcher) as T
+//
+//    }
 
     /**
      * As CityViewModel has arguments, we need to create it with a factory, else Android will create a ViewModel with empty constructor, and CityViewModel needs arguments
      */
     @Suppress("UNCHECKED_CAST")
-    class CityViewModelFactory(private val interactors: Interactors) :
+    class CityViewModelFactory(
+        private val findCurrentRegion: FindCurrentRegion,
+        private val getCityWeatherFromDatabase: GetCityWeatherFromDatabase,
+        private val requestWeatherByCoordinates: RequestWeatherByCoordinates,
+        private val saveCityWeather: SaveCityWeather,
+        private val deleteAllCities: DeleteAllCities,
+        private val requestCityForecastByCoordinates: RequestCityForecastByCoordinates,
+        private val deleteAllForecast: DeleteAllForecast,
+        private val saveForecastCity: SaveForecastCity,
+        private val getForecastCity: GetForecastCityFromDatabase,
+        private val uiDispatcher: CoroutineDispatcher
+    ) :
         ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T =
 
-            CityViewModel(interactors) as T
+            CityViewModel(findCurrentRegion,getCityWeatherFromDatabase,requestWeatherByCoordinates,saveCityWeather,deleteAllCities,requestCityForecastByCoordinates,deleteAllForecast,saveForecastCity,getForecastCity, uiDispatcher) as T
 
     }
+
 
 }
