@@ -6,6 +6,7 @@ import albertmartorell.com.data.repositories.WeatherRepository
 import albertmartorell.com.data.sources.LocationDataSource
 import albertmartorell.com.usecases.*
 import android.app.Application
+import com.apps.albertmartorell.meteomarto.framework.Interactors
 import com.apps.albertmartorell.meteomarto.framework.db.ImpWeatherDeviceSource
 import com.apps.albertmartorell.meteomarto.framework.server.ImpWeatherServerSource
 import com.apps.albertmartorell.meteomarto.ui.city.CityViewModel
@@ -46,7 +47,7 @@ private val appModule = module {
 
 }
 
-val dataModule = module {
+private val dataModule = module {
 
     // get is LocationDataSource and PermissionChecker, which previously were built in the appModule
     factory { RegionRepository(get(), get()) }
@@ -54,36 +55,14 @@ val dataModule = module {
 
 }
 
-val useCasesModule = module {
-
-    // get RegionRepository, which previously was built in the dataModule
-    factory<FindCurrentRegion> { get() }
-    // get is WeatherRepository, which previously was built in the appModule
-    factory<SaveCityWeather> { get() }
-    factory<RequestWeatherByCoordinates> { get() }
-    factory<DeleteAllCities> { get() }
-    factory<RequestCityForecastByCoordinates> { get() }
-    factory<DeleteAllForecast> { get() }
-    factory<SaveForecastCity> { get() }
-    factory<GetForecastCityFromDatabase> { get() }
-    factory<GetCityWeatherFromDatabase> { get() }
-    single { Dispatchers.Unconfined }
-
-}
-
 private val androidModule = module {
-
-    // these dependencies can only be used in the Landing activity
-    //scope(named<Landing>()) {
-
 
     viewModel {
 
-        CityViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get())
+        CityViewModel(get(), get())
 
     }
 
-    // get RegionRepository, which previously was built in the dataModule
     single { FindCurrentRegion(get()) }
     single { SaveCityWeather(get()) }
     single { RequestWeatherByCoordinates(get()) }
@@ -94,48 +73,6 @@ private val androidModule = module {
     single { GetForecastCityFromDatabase(get()) }
     single { GetCityWeatherFromDatabase(get()) }
     single { Dispatchers.Unconfined }
-    // get is WeatherRepository, which previously was built in the appModule
-//    factory<SaveCityWeather> { get() }
-//    factory<RequestWeatherByCoordinates> { get() }
-//    factory<DeleteAllCities> { get() }
-//    factory<RequestCityForecastByCoordinates> { get() }
-//    factory<DeleteAllForecast> { get() }
-//    factory<SaveForecastCity> { get() }
-//    factory<GetForecastCityFromDatabase> { get() }
-//    factory<GetCityWeatherFromDatabase> { get() }
-    // single { Dispatchers.Unconfined }
-
-//        // get are WeatherServerSource and WeaterServiceSource
-//        scoped { WeatherRepository(get(), get()) }
-//        // get is WeatherRepository
-//        scoped { GetCityWeatherFromDatabase(get()) }
-//        // get is RegionRepository
-//        scoped { FindCurrentRegion(get()) }
-//        // get is WeatherRepository
-//        scoped { SaveCityWeather(get()) }
-//        // get is WeatherRepository
-//        scoped { RequestWeatherByCoordinates(get()) }
-//        // get is WeatherRepository
-//        scoped { DeleteAllCities(get()) }
-//        // get is WeatherRepository
-//        scoped { RequestCityForecastByCoordinates(get()) }
-//        // get is WeatherRepository
-//        scoped { DeleteAllForecast(get()) }
-//        // get is WeatherRepository
-//        scoped { SaveForecastCity(get()) }
-//        // get is WeatherRepository
-//        scoped { GetForecastCityFromDatabase(get()) }
-
-    //}
+    single { Interactors(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
 
 }
-
-//private val viewModelModule = module {
-//
-//    viewModel {
-//
-//        CityViewModel(get())
-//
-//    }
-//
-//}

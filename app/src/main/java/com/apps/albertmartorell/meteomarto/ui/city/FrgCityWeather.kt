@@ -20,15 +20,12 @@ class FrgCityWeather : Fragment() {
     lateinit var root: ConstraintLayout
     lateinit var navController: NavController
     private val viewModel: CityViewModel by sharedViewModel()
-
-    //private val viewModel by sharedViewModel<CityViewModel>()
-    lateinit var coarsedPermissionRequest: PermissionRequester
+    private lateinit var coarsedPermissionRequest: PermissionRequester
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        //viewModel = ViewModelProviders.of(activity as Landing).get(CityViewModel::class.java)
 
     }
 
