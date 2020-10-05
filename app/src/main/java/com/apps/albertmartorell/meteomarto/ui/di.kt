@@ -12,6 +12,7 @@ import com.apps.albertmartorell.meteomarto.framework.server.ImpWeatherServerSour
 import com.apps.albertmartorell.meteomarto.ui.city.CityViewModel
 import com.apps.albertmartorell.meteomarto.ui.common.AndroidPermissionChecker
 import com.apps.albertmartorell.meteomarto.ui.common.PlayServicesLocationDataSource
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -44,6 +45,7 @@ private val appModule = module {
     factory<WeatherRepository.WeatherDeviceSource> { ImpWeatherDeviceSource(androidApplication()) }
     factory<LocationDataSource> { PlayServicesLocationDataSource(androidApplication()) }
     factory<PermissionChecker> { AndroidPermissionChecker(androidApplication()) }
+    single<CoroutineDispatcher> { Dispatchers.Main }
 
 }
 
@@ -72,7 +74,6 @@ private val androidModule = module {
     single { SaveForecastCity(get()) }
     single { GetForecastCityFromDatabase(get()) }
     single { GetCityWeatherFromDatabase(get()) }
-    single { Dispatchers.Unconfined }
     single { Interactors(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
 
 }
