@@ -10,7 +10,6 @@ import com.apps.albertmartorell.meteomarto.testshared.mockDomainCity
 import com.apps.albertmartorell.meteomarto.testshared.mockFlowCity
 import com.apps.albertmartorell.meteomarto.testshared.mockForecastDomain
 import com.apps.albertmartorell.meteomarto.ui.dataModule
-import com.apps.albertmartorell.meteomarto.ui.useCasesModule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOf
 import org.koin.core.context.startKoin
@@ -19,12 +18,16 @@ import org.koin.dsl.module
 
 fun initMockedDi(vararg modules: Module) {
 
+    // rep un llistat de mòduls que els afegeix a uns que ja tenim per defecte: mockedAppModule i dataModule.
+    // el mòdul dataModule no el modifiquem ja que pertany al nostre domini i no fa falta que el modifiquem, en canvi appModule ha estat substituit per mockedAppModule, ja que appMOdule és el que es connecta a lllibres de tercers,
+    // d'Android i per tant li hem d'aplicar les característiques que nosaltres necessitem per fer els tests.
     startKoin {
-        modules(listOf(mockedAppModule, dataModule, useCasesModule) + modules)
+        modules(listOf(mockedAppModule, dataModule) + modules)
     }
 
 }
 
+// llista d'elements inventats (fakes)
 private val mockedAppModule = module {
 
     factory<WeatherRepository.WeatherServerSource> { FakeRemoteDataSource() }
@@ -36,13 +39,14 @@ private val mockedAppModule = module {
 
 }
 
-val fakeCoordinates = Coordinates(41.54329F, 2.10942F)
+val defaultFakeCoordinates = Coordinates(41.54329F, 2.10942F)
 
 val defaultFakeCityWeather =
-    mockDomainCity(fakeCoordinates, "FakeCityName")
+    mockDomainCity(defaultFakeCoordinates, "FakeCityName")
 
 val defaultFakeCityForecast = listOf(mockForecastDomain())
 
+// It simulates the Room library. Here it is like a cache memory
 class FakeLocalDataSource : WeatherRepository.WeatherDeviceSource {
 
     private lateinit var cityWeather: City
@@ -77,6 +81,7 @@ class FakeLocalDataSource : WeatherRepository.WeatherDeviceSource {
 
 }
 
+// It simulates the Retrofit library
 class FakeRemoteDataSource : WeatherRepository.WeatherServerSource {
 
     override suspend fun getWeatherByCoordinates(latitude: Float?, longitude: Float?) =
@@ -97,6 +102,6 @@ class FakePermissionChecker : PermissionChecker {
 
 class FakeLocationDataSource : LocationDataSource {
 
-    override suspend fun findLastRegion() = fakeCoordinates
+    override suspend fun findLastRegion() = defaultFakeCoordinates
 
 }

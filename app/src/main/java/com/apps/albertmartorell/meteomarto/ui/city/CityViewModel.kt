@@ -24,7 +24,7 @@ class CityViewModel(private val interactors: Interactors, uiDispatcher: Coroutin
 
         object Loading : UiForecastModel()
         object FinishedWithError : UiForecastModel()
-        class SuccessRequest(val listForecast: List<ForecastDomain>) : UiForecastModel()
+        data class SuccessRequest(val listForecast: List<ForecastDomain>) : UiForecastModel()
 
     }
 
@@ -198,11 +198,15 @@ class CityViewModel(private val interactors: Interactors, uiDispatcher: Coroutin
 
     }
 
-    fun startRequestForecast(latitude: Float?, longitude: Float?) {
+    fun startRequestForecast(
+        latitude: Float?,
+        longitude: Float?,
+        customDispatcher: CoroutineDispatcher
+    ) {
 
         launch {
 
-            withContext(Dispatchers.IO) {
+            withContext(customDispatcher) {
 
                 try {
 

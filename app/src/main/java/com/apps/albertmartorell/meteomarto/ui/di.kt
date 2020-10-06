@@ -37,8 +37,7 @@ fun Application.initDI() {
 
 }
 
-// the name of the module belongs to the application module: app, use cases, data, domain....
-// the dependencies that it has, are the classes that we initialize in this module
+// there are either third party and Android libraries
 private val appModule = module {
 
     factory<WeatherRepository.WeatherServerSource> { ImpWeatherServerSource() }
@@ -49,22 +48,12 @@ private val appModule = module {
 
 }
 
-private val dataModule = module {
+// it belongs to own domain scope
+val dataModule = module {
 
     // get is LocationDataSource and PermissionChecker, which previously were built in the appModule
     factory { RegionRepository(get(), get()) }
     factory { WeatherRepository(get(), get()) }
-
-}
-
-private val androidModule = module {
-
-    viewModel {
-
-        CityViewModel(get(), get())
-
-    }
-
     single { FindCurrentRegion(get()) }
     single { SaveCityWeather(get()) }
     single { RequestWeatherByCoordinates(get()) }
@@ -75,5 +64,16 @@ private val androidModule = module {
     single { GetForecastCityFromDatabase(get()) }
     single { GetCityWeatherFromDatabase(get()) }
     single { Interactors(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+
+}
+
+// here we have the specific Android artifacts, for example activities, fragments
+private val androidModule = module {
+
+    viewModel {
+
+        CityViewModel(get(), get())
+
+    }
 
 }
