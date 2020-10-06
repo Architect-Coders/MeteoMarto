@@ -95,7 +95,8 @@ allprojects {
                 // Com que les llibreries de testing s'afegeixen amb el androidTestImplementation,
                 // el mòdul testShared  no s'ha afegirà en temps de compilació al projecte,
                 // només es compila quan s'executin els tests
-                testShared   : project(':testShared')
+                testShared   : project(':testShared'),
+                coroutineTest: "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
         ]
 
         // LiveData té 2 problemes per fer testing:

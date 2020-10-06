@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
@@ -19,24 +17,23 @@ import com.apps.albertmartorell.meteomarto.databinding.LytFrgCityForecastBinding
 import com.apps.albertmartorell.meteomarto.ui.city.CityViewModel
 import com.apps.albertmartorell.meteomarto.ui.city.CityViewModel.UiForecastModel
 import com.apps.albertmartorell.meteomarto.ui.city.Landing
+import kotlinx.coroutines.Dispatchers
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class FrgCityForecast : Fragment() {
 
     lateinit var binding: LytFrgCityForecastBinding
     lateinit var root: ConstraintLayout
     lateinit var navController: NavController
-    lateinit var viewModel: CityViewModel
-    //private val viewModel by sharedViewModel<CityViewModel>()
+    private val viewModel: CityViewModel by sharedViewModel()
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var adapter: ForecastRecyclerAdapter
     val args: FrgCityForecastArgs by navArgs()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        viewModel = ViewModelProviders.of(activity as Landing).get(CityViewModel::class.java)
         linearLayoutManager = LinearLayoutManager(activity)
 
     }
@@ -108,8 +105,7 @@ class FrgCityForecast : Fragment() {
     private fun observeUI() {
 
         viewModel.eventRequestForecast.observe(
-            viewLifecycleOwner,
-            Observer { forecastCity ->
+            viewLifecycleOwner, { forecastCity ->
 
                 when (forecastCity) {
 
@@ -118,7 +114,8 @@ class FrgCityForecast : Fragment() {
                         binding.progressBar.visibility = View.VISIBLE
                         viewModel.startRequestForecast(
                             viewModel.eventCityWeather.value?.peekContent()?.latitude,
-                            viewModel.eventCityWeather.value?.peekContent()?.longitude
+                            viewModel.eventCityWeather.value?.peekContent()?.longitude,
+                            Dispatchers.IO
                         )
 
                     }

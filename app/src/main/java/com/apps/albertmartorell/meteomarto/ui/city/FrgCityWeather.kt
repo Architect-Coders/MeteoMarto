@@ -6,29 +6,26 @@ import android.view.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.apps.albertmartorell.meteomarto.R
 import com.apps.albertmartorell.meteomarto.databinding.LytFrgCityWeatherBinding
 import com.apps.albertmartorell.meteomarto.ui.PermissionRequester
 import com.apps.albertmartorell.meteomarto.ui.model.CityUIView
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class FrgCityWeather : Fragment() {
 
     lateinit var binding: LytFrgCityWeatherBinding
     lateinit var root: ConstraintLayout
     lateinit var navController: NavController
-    lateinit var viewModel: CityViewModel
-    //private val viewModel by sharedViewModel<CityViewModel>()
-    lateinit var coarsedPermissionRequest: PermissionRequester
+    private val viewModel: CityViewModel by sharedViewModel()
+    private lateinit var coarsedPermissionRequest: PermissionRequester
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        viewModel = ViewModelProviders.of(activity as Landing).get(CityViewModel::class.java)
 
     }
 
@@ -121,7 +118,7 @@ class FrgCityWeather : Fragment() {
 
         viewModel.eventRequestLocationPermission.observe(
             viewLifecycleOwner,
-            Observer {
+            {
 
                 it.getContentIfNotHandled()
                     ?.let {
@@ -139,7 +136,7 @@ class FrgCityWeather : Fragment() {
 
         viewModel.eventRequestedLocationPermissionFinished.observe(
             viewLifecycleOwner,
-            Observer {
+            {
 
                 it.getContentIfNotHandled()?.let {
 
@@ -157,7 +154,7 @@ class FrgCityWeather : Fragment() {
 
             })
 
-        viewModel.eventPermissionDenied.observe(viewLifecycleOwner, Observer {
+        viewModel.eventPermissionDenied.observe(viewLifecycleOwner, {
 
             it.getContentIfNotHandled()?.let {
 
@@ -171,7 +168,7 @@ class FrgCityWeather : Fragment() {
 
         viewModel.eventPermissionGranted.observe(
             viewLifecycleOwner,
-            Observer {
+            {
 
                 it.getContentIfNotHandled()?.let {
 
@@ -181,7 +178,7 @@ class FrgCityWeather : Fragment() {
 
             })
 
-        viewModel.eventNotLocalData.observe(viewLifecycleOwner, Observer {
+        viewModel.eventNotLocalData.observe(viewLifecycleOwner, {
 
             it.getContentIfNotHandled()?.let {
 
@@ -192,7 +189,7 @@ class FrgCityWeather : Fragment() {
 
         })
 
-        viewModel.eventCityWeatherOffline.observe(viewLifecycleOwner, Observer { cityView ->
+        viewModel.eventCityWeatherOffline.observe(viewLifecycleOwner,  { cityView ->
 
             cityView.getContentIfNotHandled()?.let { response ->
 
@@ -203,7 +200,7 @@ class FrgCityWeather : Fragment() {
 
         })
 
-        viewModel.eventCityWeather.observe(viewLifecycleOwner, Observer { cityView ->
+        viewModel.eventCityWeather.observe(viewLifecycleOwner, { cityView ->
 
             cityView.getContentIfNotHandled()?.let { response ->
 

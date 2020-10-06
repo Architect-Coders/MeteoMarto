@@ -8,24 +8,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.apps.albertmartorell.meteomarto.framework.Interactors
 import com.apps.albertmartorell.meteomarto.framework.db.common.convertToCityUIView
-import com.apps.albertmartorell.meteomarto.ui.Scope
+import com.apps.albertmartorell.meteomarto.ui.ScopedViewModel
 import com.apps.albertmartorell.meteomarto.ui.common.Event
 import com.apps.albertmartorell.meteomarto.ui.model.CityUIView
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class CityViewModel(private val interactors: Interactors) : ViewModel(), Scope {
-
-    override lateinit var job: Job
+class CityViewModel(private val interactors: Interactors, uiDispatcher: CoroutineDispatcher) :
+    ScopedViewModel(uiDispatcher) {
 
     sealed class UiForecastModel {
 
         object Loading : UiForecastModel()
         object FinishedWithError : UiForecastModel()
-        class SuccessRequest(val listForecast: List<ForecastDomain>) : UiForecastModel()
+        data class SuccessRequest(val listForecast: List<ForecastDomain>) : UiForecastModel()
 
     }
 
@@ -199,11 +198,15 @@ class CityViewModel(private val interactors: Interactors) : ViewModel(), Scope {
 
     }
 
-    fun startRequestForecast(latitude: Float?, longitude: Float?) {
+    fun startRequestForecast(
+        latitude: Float?,
+        longitude: Float?,
+        customDispatcher: CoroutineDispatcher
+    ) {
 
         launch {
 
-            withContext(Dispatchers.IO) {
+            withContext(customDispatcher) {
 
                 try {
 
@@ -248,8 +251,8 @@ class CityViewModel(private val interactors: Interactors) : ViewModel(), Scope {
 
     override fun onCleared() {
 
+        destroyScope()
         super.onCleared()
-        cancelScope()
 
     }
 
@@ -257,12 +260,15 @@ class CityViewModel(private val interactors: Interactors) : ViewModel(), Scope {
      * As CityViewModel has arguments, we need to create it with a factory, else Android will create a ViewModel with empty constructor, and CityViewModel needs arguments
      */
     @Suppress("UNCHECKED_CAST")
-    class CityViewModelFactory(private val interactors: Interactors) :
+    class CityViewModelFactory(
+        private val interactors: Interactors,
+        private val uiDispatcher: CoroutineDispatcher
+    ) :
         ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T =
 
-            CityViewModel(interactors) as T
+            CityViewModel(interactors, uiDispatcher) as T
 
     }
 

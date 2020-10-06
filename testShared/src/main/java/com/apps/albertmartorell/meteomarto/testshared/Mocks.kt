@@ -43,7 +43,7 @@ fun mockFlowCity(newCoordinates: Coordinates, name: String): Flow<City> = flow {
 
 }
 
-fun mockForecastDomain():ForecastDomain = ForecastDomain(
+fun mockForecastDomain(): ForecastDomain = ForecastDomain(
 
     "",
     10,
