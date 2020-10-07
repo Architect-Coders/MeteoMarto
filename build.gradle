@@ -1,6 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+    ext.expressoVersion = '3.2.0'
     ext.kotlinVersion = '1.4.10'
     ext.retrofitVersion = '2.7.0'
     ext.okhttpVersion = '4.3.0'
@@ -112,8 +113,18 @@ allprojects {
         ]
 
         androidTestLibs = [
-                testRunner: 'androidx.test:runner:1.2.0',
-                espresso  : 'androidx.test.espresso:espresso-core:3.2.0'
+                testRunner     : 'androidx.test:runner:1.2.0',
+                espressoCore   : "androidx.test.espresso:espresso-core:$expressoVersion",
+                // Afegeix aspectes per testejar el recyclerview
+                espressoContrib: "androidx.test.espresso:espresso-contrib:$expressoVersion",
+                // les rules són maneres de simplificar el codi el test, per facilitar la gestió dels testos abans i després de la seva execució.
+                rules          : "androidx.test:rules:1.2.0",
+                extJunit       : "androidx.test.ext:junit-ktx:1.1.1",
+                mockWebServer  : "com.squareup.okhttp3:mockwebserver:4.9.0",
+                // les peticions s'executen en un fil secundari, el test es continua executant i mai trobararem el contingut carregat a la UI. Per això tenim aquesta llibreria
+                // que són una manera d'identificar operacions asíncrones al nostres tests. Espresso això ho ja implementat, però en llibreries externes no, per això fem aquesta la fem servir per a okhttp el qual utilitza retrofit.
+                okhttpIdlingResources: "com.jakewharton.espresso:okhttp3-idling-resource:1.0.0"
+
         ]
 
     }
