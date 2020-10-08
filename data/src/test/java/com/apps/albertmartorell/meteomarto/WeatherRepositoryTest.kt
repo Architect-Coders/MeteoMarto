@@ -1,7 +1,7 @@
 package com.apps.albertmartorell
 
 import albertmartorell.com.data.repositories.WeatherRepository
-import albertmartorell.com.domain.responses.City
+import albertmartorell.com.domain.responses.CityDomain
 import com.apps.albertmartorell.meteomarto.testshared.mockCoordinates
 import com.apps.albertmartorell.meteomarto.testshared.mockDomainCity
 import com.apps.albertmartorell.meteomarto.testshared.mockFlowCity
@@ -48,7 +48,7 @@ class WeatherRepositoryTest {
             // **** Given: la inicialització del test. L'estat en el que volem que començo
             val localCoordinates = mockCoordinates.copy(10F, 40F)
             val localCity = mockFlowCity(localCoordinates, "Sabadell")
-            val givenCity: Flow<City> = localCity
+            val givenCity: Flow<CityDomain> = localCity
 
             // **** When: l'execució del codi
             whenever(deviceSource.isEmpty()).thenReturn(false)

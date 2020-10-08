@@ -6,7 +6,7 @@ package com.apps.albertmartorell.meteomarto.testshared
  */
 import albertmartorell.com.domain.cityforecast.ForecastDomain
 import albertmartorell.com.domain.cityweather.*
-import albertmartorell.com.domain.responses.City
+import albertmartorell.com.domain.responses.CityDomain
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -21,7 +21,7 @@ val mockWind = Wind(60F, 25F)
 val mockClouds = Clouds(85F)
 val mockSys = Sys(4, 789F, "Belgium", 89, 54)
 
-fun mockDomainCity(newCoordinates: Coordinates, name: String): City = City(
+fun mockDomainCity(newCoordinates: Coordinates, name: String): CityDomain = CityDomain(
     newCoordinates,
     mockWeatherList,
     mockMain, 100L,
@@ -30,9 +30,9 @@ fun mockDomainCity(newCoordinates: Coordinates, name: String): City = City(
     mockSys, name
 )
 
-fun mockFlowCity(newCoordinates: Coordinates, name: String): Flow<City> = flow {
+fun mockFlowCity(newCoordinates: Coordinates, name: String): Flow<CityDomain> = flow {
 
-    City(
+    CityDomain(
         newCoordinates,
         mockWeatherList,
         mockMain, 100L,

@@ -1,7 +1,7 @@
 package albertmartorell.com.data.server.interfaces
 
-import albertmartorell.com.domain.responses.City
 import albertmartorell.com.domain.responses.ForecastResponse
+import com.apps.albertmartorell.meteomarto.framework.server.model.CityFromServer
 import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.http.Url
@@ -12,7 +12,7 @@ interface ICityWeatherByCoordinates {
     // It identifies the type of the request with the notation, and then the parameters of the request as arguments of the function.
     // The return value wraps the response in a Call object with the type of the expected result.
     @GET("data/2.5/weather?&APPID=5e11044c499339f5ede8d58d85d134d3")
-    suspend fun getWeather(@Query("lat") lat: String, @Query("lon") lon: String): City
+    suspend fun getWeather(@Query("lat") lat: String, @Query("lon") lon: String): CityFromServer
 
     @GET("data/2.5/forecast?&APPID=5e11044c499339f5ede8d58d85d134d3")
     suspend fun getForecast(@Query("lat") lat: String, @Query("lon") lon: String): ForecastResponse

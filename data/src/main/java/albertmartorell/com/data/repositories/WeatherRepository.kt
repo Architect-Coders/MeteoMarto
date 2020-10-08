@@ -1,7 +1,7 @@
 package albertmartorell.com.data.repositories
 
 import albertmartorell.com.domain.cityforecast.ForecastDomain
-import albertmartorell.com.domain.responses.City
+import albertmartorell.com.domain.responses.CityDomain
 import kotlinx.coroutines.flow.Flow
 
 // We use the Repository pattern, which its main purpose is to abstract the concrete implementation of data access. To achieve this, I will add one interface and one class for each model
@@ -16,19 +16,19 @@ class WeatherRepository(
     private val deviceSource: WeatherDeviceSource
 ) {
 
-    suspend fun saveCityWeather(city: City) {
+    suspend fun saveCityWeather(city: CityDomain) {
 
         deviceSource.saveCityWeather(city)
 
     }
 
-    suspend fun getCityWeatherFromDatabase(): Flow<City> {
+    suspend fun getCityWeatherFromDatabase(): Flow<CityDomain> {
 
         return deviceSource.getCity()
 
     }
 
-    suspend fun requestWeatherByCoordinates(latitude: Float?, longitude: Float?): City {
+    suspend fun requestWeatherByCoordinates(latitude: Float?, longitude: Float?): CityDomain {
 
         return serverSource.getWeatherByCoordinates(latitude, longitude)
 
@@ -73,7 +73,7 @@ class WeatherRepository(
         suspend fun getWeatherByCoordinates(
             latitude: Float?,
             longitude: Float?
-        ): City
+        ): CityDomain
 
         suspend fun requestCityForecastByCoordinates(
             latitude: Float?,
@@ -85,8 +85,8 @@ class WeatherRepository(
     interface WeatherDeviceSource {
 
         suspend fun isEmpty(): Boolean
-        suspend fun saveCityWeather(cityWeather: City)
-        suspend fun getCity(): Flow<City>
+        suspend fun saveCityWeather(cityWeather: CityDomain)
+        suspend fun getCity(): Flow<CityDomain>
         suspend fun deleteAllCities()
         suspend fun deleteAllForecast()
         suspend fun saveForecastCity(forecastDomain: List<ForecastDomain>)
