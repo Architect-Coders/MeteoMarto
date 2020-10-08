@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.apps.albertmartorell.meteomarto.framework.Interactors
-import com.apps.albertmartorell.meteomarto.framework.db.common.convertToCityUIView
+import com.apps.albertmartorell.meteomarto.framework.convertToCityUIView
 import com.apps.albertmartorell.meteomarto.ui.ScopedViewModel
 import com.apps.albertmartorell.meteomarto.ui.common.Event
 import com.apps.albertmartorell.meteomarto.ui.model.CityUIView

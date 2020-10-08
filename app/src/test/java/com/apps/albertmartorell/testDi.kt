@@ -5,7 +5,7 @@ import albertmartorell.com.data.repositories.WeatherRepository
 import albertmartorell.com.data.sources.LocationDataSource
 import albertmartorell.com.domain.cityforecast.ForecastDomain
 import albertmartorell.com.domain.cityweather.Coordinates
-import albertmartorell.com.domain.responses.City
+import albertmartorell.com.domain.responses.CityDomain
 import com.apps.albertmartorell.meteomarto.testshared.mockDomainCity
 import com.apps.albertmartorell.meteomarto.testshared.mockFlowCity
 import com.apps.albertmartorell.meteomarto.testshared.mockForecastDomain
@@ -49,13 +49,13 @@ val defaultFakeCityForecast = listOf(mockForecastDomain())
 // It simulates the Room library. Here it is like a cache memory
 class FakeLocalDataSource : WeatherRepository.WeatherDeviceSource {
 
-    private lateinit var cityWeather: City
+    private lateinit var cityWeather: CityDomain
     private var cityForecast = emptyList<ForecastDomain>()
 
 
     override suspend fun isEmpty() = false
 
-    override suspend fun saveCityWeather(cityWeather: City) {
+    override suspend fun saveCityWeather(cityWeather: CityDomain) {
 
         this.cityWeather = cityWeather
 

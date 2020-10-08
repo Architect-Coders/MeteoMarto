@@ -2,12 +2,12 @@ package com.apps.albertmartorell.meteomarto.framework.db
 
 import albertmartorell.com.data.repositories.WeatherRepository
 import albertmartorell.com.domain.cityforecast.ForecastDomain
-import albertmartorell.com.domain.responses.City
+import albertmartorell.com.domain.responses.CityDomain
 import android.content.Context
-import com.apps.albertmartorell.meteomarto.framework.db.common.convertForecastDomainToEntity
-import com.apps.albertmartorell.meteomarto.framework.db.common.convertToDomain
-import com.apps.albertmartorell.meteomarto.framework.db.common.convertToResponse
-import com.apps.albertmartorell.meteomarto.framework.db.common.saveCityAsEntity
+import com.apps.albertmartorell.meteomarto.framework.convertForecastDomainToEntity
+import com.apps.albertmartorell.meteomarto.framework.convertToDomain
+import com.apps.albertmartorell.meteomarto.framework.convertToResponse
+import com.apps.albertmartorell.meteomarto.framework.saveCityAsEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -27,14 +27,14 @@ class ImpWeatherDeviceSource(context: Context) : WeatherRepository.WeatherDevice
 
     }
 
-    override suspend fun saveCityWeather(cityWeather: City) {
+    override suspend fun saveCityWeather(cityWeather: CityDomain) {
 
         dao.insertWeatherCity(cityWeather.saveCityAsEntity())
 
     }
 
     @kotlinx.coroutines.ExperimentalCoroutinesApi
-    override suspend fun getCity(): Flow<City> {
+    override suspend fun getCity(): Flow<CityDomain> {
 
         return dao.getCity().map { it.convertToResponse() }.distinctUntilChanged()
 

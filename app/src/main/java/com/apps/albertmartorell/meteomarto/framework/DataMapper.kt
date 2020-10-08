@@ -1,13 +1,15 @@
-package com.apps.albertmartorell.meteomarto.framework.db.common
+package com.apps.albertmartorell.meteomarto.framework
 
 import albertmartorell.com.domain.cityforecast.ForecastDomain
 import albertmartorell.com.domain.cityforecast.ListForecast
 import albertmartorell.com.domain.cityweather.*
-import albertmartorell.com.domain.responses.City
+import albertmartorell.com.domain.responses.CityDomain
 import albertmartorell.com.domain.responses.ForecastResponse
+import com.apps.albertmartorell.meteomarto.framework.db.common.DbTypeConverters
 import com.apps.albertmartorell.meteomarto.framework.db.model.CityEntity
 import com.apps.albertmartorell.meteomarto.framework.db.model.ForecastEntity
 import com.apps.albertmartorell.meteomarto.framework.db.model.WeatherEntity
+import com.apps.albertmartorell.meteomarto.framework.server.model.CityFromServer
 import com.apps.albertmartorell.meteomarto.ui.model.CityUIView
 
 const val FROM_KELVIN_TO_CELSIUS = 273
@@ -85,7 +87,7 @@ fun ListForecast.saveListForecastAsDomain(): ForecastDomain =
 // **** Current weather city
 
 // From domain model to database model
-fun City.saveCityAsEntity(): CityEntity =
+fun CityDomain.saveCityAsEntity(): CityEntity =
 
     CityEntity(
         0,
@@ -115,7 +117,7 @@ fun City.saveCityAsEntity(): CityEntity =
     )
 
 // From model domain to model view
-fun City.convertToCityUIView(): CityUIView =
+fun CityDomain.convertToCityUIView(): CityUIView =
 
     CityUIView(
         coordinates?.latitude,
@@ -144,9 +146,9 @@ fun City.convertToCityUIView(): CityUIView =
     )
 
 // From database model to domain model
-fun CityEntity.convertToResponse(): City =
+fun CityEntity.convertToResponse(): CityDomain =
 
-    City(
+    CityDomain(
         Coordinates(latitude, longitude),
         WeatherEntity().convertToResponse(main, description, icon),
         Main(
@@ -183,88 +185,28 @@ private fun WeatherEntity.convertToResponse(
 
 }
 
-//// From model domain to model database
-//fun City.convertToEntity(): CityEntity =
-//
-//    CityEntity(
-//        0,
-//        Coordinates().latitude,
-//        CoordinatesEntity().longitude,
-//        Weather().convertToEntity(),
-//        Main().convertToEntity(),
-//        visibility,
-//        Wind().convertToEntity(),
-//        Clouds().convertToEntity(),
-//        Sys().convertToEntity(),
-//        name
-//    )
-//
-//private fun Coordinates.convertToEntity(): CoordinatesEntity =
-//
-//    CoordinatesEntity(
-//        latitude,
-//        longitude
-//    )
-//
-//private fun Weather.convertToEntity(): WeatherEntity =
-//
-//    WeatherEntity(
-//        main,
-//        description,
-//        icon
-//    )
-//
-//private fun Main.convertToEntity(): MainEntity =
-//
-//    MainEntity(
-//        temperature,
-//        humidity,
-//        pressure,
-//        temperatureMin,
-//        temperatureMax
-//    )
-//
-//private fun Wind.convertToEntity(): WindEntity =
-//
-//    WindEntity(
-//        speed,
-//        degrees
-//    )
-//
-//private fun Clouds.convertToEntity(): CloudsEntity =
-//
-//    CloudsEntity(
-//        coverage
-//    )
-//
-//private fun Sys.convertToEntity(): SysEntity =
-//
-//    SysEntity(
-//        type,
-//        message,
-//        country,
-//        sunrise,
-//        sunset
-//    )
-//
-//// From model database to model domain
-//fun CityEntity.convertToResponse(): City =
-//
-//    City(
-//        CoordinatesEntity().convertToResponse(),
-//        WeatherEntity().convertToResponse(),
-//        MainEntity().convertToResponse(),
-//        visibility,
-//        WindEntity().convertToResponse(),
-//        CloudsEntity().convertToResponse(),
-//        SysEntity().convertToResponse(),
-//        name
-//    )
-//
-//private fun CoordinatesEntity.convertToResponse() =
-//
-//    Coordinates(
-//        latitude,
-//        longitude
-//    )
-//
+fun CityFromServer.convertToDomainCity(): CityDomain = CityDomain(
+
+    coordinates = Coordinates(coordinates?.latitude, coordinates?.longitude),
+    weather = listOf(
+        Weather(
+            weather?.get(0)?.main,
+            weather?.get(0)?.description,
+            weather?.get(0)?.icon
+        )
+    ),
+    visibility = visibility,
+    wind = Wind(wind?.speed, wind?.degrees),
+    main = Main(
+        main?.temperature,
+        main?.humidity,
+        main?.pressure,
+        main?.temperatureMin,
+        main?.temperatureMax,
+        main?.temperatureFeelsLike
+    ),
+    clouds = Clouds(clouds?.coverage),
+    sys = Sys(sys?.type, sys?.message, sys?.country, sys?.sunrise, sys?.sunset),
+    name = name
+
+)
