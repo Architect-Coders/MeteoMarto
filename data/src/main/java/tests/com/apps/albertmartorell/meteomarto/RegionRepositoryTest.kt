@@ -1,4 +1,4 @@
-package com.apps.albertmartorell.meteomarto
+package tests.com.apps.albertmartorell.meteomarto
 
 import albertmartorell.com.data.repositories.PermissionChecker
 import albertmartorell.com.data.repositories.RegionRepository
