@@ -1,4 +1,4 @@
-package tests.com.apps.albertmartorell.meteomarto
+package com.apps.albertmartorell
 
 import albertmartorell.com.data.repositories.WeatherRepository
 import albertmartorell.com.domain.responses.City
